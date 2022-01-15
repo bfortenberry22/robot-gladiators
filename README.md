@@ -8,7 +8,7 @@ A game to battle other robots given a random health and attack score.
 * JS
 
 ## Website
-https://lernantino.github.io/run-buddy/
+https://bfortenberry22.github.io/robot-gladiators/
 
 ## Contribution
 Brittany 
