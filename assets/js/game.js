@@ -21,11 +21,16 @@ var fightOrSkip = function(){
     //convert promptFight to all lowercase so we can check with less options
     promptFight = promptFight.toLowerCase();
 
-    if( promptFight === "skip"){
+    if (promptFight === "skip" && playerInfo.money<10){
+        alert("Sorry. You don't have enough money to skip this fight. Let the battle begin!");
+    }
+
+    if( promptFight === "skip" && playerInfo.money >= 10){
         //confirm player wants to skip
+
         var confirmSkip = window.confirm("Are you sure you'd like to skip this fight?");
 
-        //if yes (true), skip fight
+        //if yes (true) and there is enough money, skip fight
         if (confirmSkip){
             window.alert(playerInfo.name + " has choosen to skip the fight. Goodbye!");
             //subtract money from playerInfo.money for skipping
@@ -150,12 +155,25 @@ var startGame = function(){
 
 //function to end the entire game
 var endGame = function(){
-    //if the player is still alive, player wins!
-    if (playerInfo.health > 0){
-        window.alert("Great job! You survived the game. You have a score of " + playerInfo.money + ".");
-    } else {
-        window.alert("You've lost your robot in battle.");
+    window.alert("The game has now ended. Let's see how you did!");
+
+    //check localStorage for high score, if it's not the use 0
+    var highScore = localStorage.getItem("highscore");
+    if (highScore === null){
+        highScore = 0;
     }
+
+    //if player has more money than the high score, player has new high score
+    if (playerInfo.money > highScore && playerInfo.health>0){
+        localStorage.setItem("highscore", playerInfo.money);
+        localStorage.setItem("name", playerInfo.name);
+
+        alert(playerInfo.name + " now has the high score of " + playerInfo.money + "!");
+    }
+    else{
+        alert(playerInfo.name + " did not beat the high score of " +highScore+ ". Maybe next time!");
+    }
+   
     //ask player if they would like to play again
     var playAgainConfirm = window.confirm("Would you like to play again?");
     if (playAgainConfirm){
