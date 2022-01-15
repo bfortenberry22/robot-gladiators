@@ -1,6 +1,15 @@
-//Player's Information
+//function to set name
+var getPlayerName = function(){
+    var name = "";
+    while (name === "" || name === null){
+        name = prompt("What is your robot's name?");
+    }
+    console.log("Your robot's name is " + name);
+    return name;
+};
+    //Player's Information
 var playerInfo= {
-    name: window.prompt ("What is your robot's name?"),
+    name: getPlayerName(),
     health: 100,
     attack : 10,
     money : 10,
@@ -12,12 +21,22 @@ var playerInfo= {
         this.attack = 10;
     }, //comma before new method
     refillHealth:function(){
-        this.health += 20;
-        this.money -=7;
+        if( this.money>=7){
+            window.alert("Refilling player's health by 20 for 7 dollars.");
+            this.health += 20;
+            this.money -=7;
+        }else{
+            window.alert("You don't have enough money!")
+        }
     },//comma!
     upgradeAttack: function(){
-        this.attack +=6;
-        this.money -= 7;
+        if(this.money>=7){
+            window.alert("Upgrading player's attack by 6 for 7 dollars.")
+            this.attack +=6;
+            this.money -= 7;
+        }else{
+            window.alert("You don't have enough money!");
+        }
     }
 };
 
@@ -48,7 +67,8 @@ var startGame = function(){
     playerInfo.reset();
     for ( var i = 0; i <enemyInfo.length; i++) {
         if (playerInfo.health > 0){
-            window.alert( "Welcome to Robot Gladiators! Round " + (i+1))
+            window.alert( "Welcome to Robot Gladiators! Round " + (i+1));
+            debugger;
             var pickedEnemyObj = enemyInfo[i]
             //randomize enemy's health between 40 and 60
             pickedEnemyObj.health = randomNumber(40, 60);
@@ -161,34 +181,16 @@ var shop = function(){
     switch (shopOptionPrompt){
         case "REFILL":
         case "refill":
-            if(playerInfo.money>=7){
-                window.alert("Refilling the player's health by 20 for 7 dollars.");
-                //refill health and decrease money
-                playerInfo.health = playerInfo.health + 20;
-                playerInfo.money = playerInfo.money-7;
-            }else{
-                window.alert("You don't have enough money!");
-                break;
-            }
-        
-        
+            playerInfo.refillHealth();
+            break;
         case "UPGRADE":
         case "upgrade":
-            if(playerInfo.money >= 7){
-                window.alert("Upgrading player's attack by 6 for 7 dollars.");
-                //upgrade attack and decrease money
-                playerInfo.attack = playerInfo.attack + 6;
-                playerInfo.money = playerInfo.money - 7;
-            } else {
-                window.alert("You don't have enough money!");
-                break;
-            }
-
+            playerInfo.upgradeAttack();
+            break;
         case "LEAVE":
         case "leave":
             window.alert("Leaving the store.");
-            break;
-            
+            break;    
         default:
             window.alert("You did not pick a valid option. Try again.")
             //call shop again to force the player to pick a valid option
